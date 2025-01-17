@@ -1,3 +1,9 @@
+[TOC]
+
+
+
+
+
 # 绪论
 
 
@@ -59,7 +65,7 @@
 > 数据结构 (Data Structure) 是相互之间存在一种或多种**特定关系的数据元素的集合**。
 >
 > * 数据结构是带 ”结构＂ 的数据元素的**集合**
-> *  “结构” 就是指数据元素之间存在的**关系**
+> * “结构” 就是指数据元素之间存在的**关系**
 
 ### 逻辑结构
 
@@ -76,11 +82,17 @@
 >   * 集合结构
 >
 >     > 数据元素之间除了 “**属于同一集合**” 的关系外，别无其他关系。例如，确定一名学生是否为 班级成员， 只需将班级看做一个集合结构。
+>
 >   * 线性结构
+>
 >     > 数据元素之间存在**一对一**的关系。例如，将学生信息数据按照其入学报到的时间先后顺序进 行排列，将组成一个线性结构。
+>
 >   * 树结构
+>
 >     > 数据元素之间存在**一对多**的关系。例如，在班级的管理体系中，班长管理多个组长，每位组长管理多名组员，从而构成树形结构。
+>
 >   * 图结构或网状结构
+>
 >     > 数据元素之间存在**多对多**的关系。例如，多位同学之间的朋友关系， 任何两位同学都可以是朋友，从而构成图状结构或网状结构。
 
 
@@ -91,7 +103,7 @@
 > * 栈和队列（具有特 4 l 第1章 绪论 I 殊限制的线性表，数据操作只能在表的一端或两端进行）
 > * 字符串（也是特殊的线性表，其特殊性 表现在它的数据元素仅由一个字符组成）
 > * 数组（是线性表的推广，它的数据元素是一个线性表）
-> *  广义表（也是线性表的推广，它的数据元素是一个线性表，但不同构，即或者是单元素，或者是 线性表）
+> * 广义表（也是线性表的推广，它的数据元素是一个线性表，但不同构，即或者是单元素，或者是 线性表）
 
 #### 非线性结构
 
@@ -234,11 +246,12 @@ struct List{
   > - 不断除以K取余数。后生成的余数先输出，先生成的余数后输出，正好符合栈的后进先出性质。
 
 - **括号匹配**：
+
   > - 从左向右扫描字符串
   > - 若遇到左括号：压栈 
   > - 若遇到右括号：弹出栈顶的左括号与之匹配。
   > - 最后判断栈空
-  
+
 - n对括号共有多少种可能的**合法匹配序列**：第n个卡特兰数
 
   > `Cn=(2n)!/(n!*n!)/(n+1)`
@@ -251,6 +264,7 @@ struct List{
   > - 读入结束符时，栈顶元素就是计算结果。
 
 - **调度场算法**：中缀表达式转后缀表达式
+
   > - 设置一个栈，存放运算符从左到右依次读入中缀表达式的每一个元素
   > - 操作数规则：直接放入后缀表达式,注意对多位数的处理
   > - 运算符规则：
@@ -259,7 +273,7 @@ struct List{
   >   - 当前运算符优先级<=栈顶运算符：弹栈直至当前运算符 优先级>栈顶或栈空或栈顶为左括号（期间弹出的运算符顺序依次放入后缀表达式），再把当前运算符压栈
   > - 括号规则： (1) 遇到左括号：压栈 (2) 遇到右括号：弹栈直至左括号 
   > - 结束符规则：弹栈至栈空
-  
+
 - **栈混洗**：给定入栈序列，模拟出栈序列
 
   > - n个元素的栈混洗总数，即n对括号的匹配序列，卡特兰数*(n+1)
@@ -296,7 +310,7 @@ struct List{
 ### 多维数组的存储和寻址：
 
 - 已知数组`A[a][b][c][d]`,每个元素占C个存储单元
--  数组元素`A[i] j][k][l]`的存储地址：
+- 数组元素`A[i] j][k][l]`的存储地址：
   - 行优先:`Loc(A)+( i*b*c*d + j*b*d + k*d + l )*C`
   - 列优先:`Loc(A)+( i + j*a + k*a*b + l*a*b*c )*C`
 
@@ -308,32 +322,35 @@ struct List{
 
 
 1. **对角矩阵的压缩存储**
+
    1. 对于一个n*n的对角矩阵，至多只有n个非0元素，因此只需存储n个对角元素
    2. `M( i , i ) -> d[ i ]`
 
 2. **(下）三角矩阵的压缩存储**
+
    1. 以按行优先方式压缩存放在一维数组d，d需要`n(n+1)/2`个元素
    2. `M(i, j)= d[k]=d[i(i−1)/2 + (j−1)]`
 
 3. **对称矩阵M**的压缩存储
-   
+
    1. 对称矩阵中M(i, j)与M(j, i)的信息相同，只需存储M的下三角部分的元素信息。
    2. 对于对称矩阵中的下三角元素`M(i, j) (i>=j)` :
       1. `i < j，M(i, j)=d[k]，k = i(i−1)/2 + (j−1)`
    3. 对于上三角元素`M(i, j) (i<j)`:元素值与下三角矩阵中的 元素M(j,i)相同
       1. `i < j, M(i, j)=M(j, i)=d[q]， q= j(j−1)/2 + (i−1)`
-   
+
 4. **三对角矩阵M的压缩存储**
-   
+
    1. 方阵Mn*n中任意元素M(i, j)，当| i - j | >1时，有M(i, j) =0， 则 M称为三对角矩阵。
    2. 需要3*n-2个存储单位
    3. 对于非零元素：即`| i-j | <=1, M(i,j) = d[2*i + j - 3]`
-   
+
 5. 稀疏矩阵的压缩存储
 
    1. 非零元素的个数远小于零元素的个数
+
    2. 三元组结点来存储矩阵的每个非零元素aij，其中i和j为元素的行号和列号，即`node(i,j,aij)`
-   
+
       ```cpp
       struct Triple{
           int row;
@@ -343,13 +360,13 @@ struct List{
       
        Triple Array[100];
       ```
-   
+
       - 对于三元组有一个需要注意的算法：**稀疏矩阵的快速转置**。
       - 预先确定矩阵M中每一列（即T中每一行）的第一个非零元的位置
       - 求出每行非零元素个数，然后利用`cpot[col]=copt[col-1]+num[col-1]`，求出位置
-   
+
    3. 十字链表:`数据,该结点所在行 ,该结点所在列 ,指向左侧相邻非零元素的指针 ,指向上方相邻非零元素的指针`,即`node(row,col,value,left,up)`
-   
+
       ```cpp
        struct ListNode{
           int row; //节点所在行
@@ -359,11 +376,11 @@ struct List{
           ListNode* up; //指向上方相邻非零元素的指针
        };
       ```
-   
+
       
-   
+
    4. 双向十字链表：在十字链表的基础上增加双方向的指针，并有循环链表的特点
-   
+
       ```cpp
        struct ListNode{
           int row; //节点所在行
@@ -375,9 +392,9 @@ struct List{
           ListNode* down;  //指向下方相邻非零元素的指针
        };
       ```
-   
+
       
-   
+
    
 
 # 字符串
@@ -439,8 +456,8 @@ struct List{
 
   - KMP:
     - 利用“部分匹配表”（即 `next` 数组）来优化暴力匹配的过程，避免了不必要的字符比较,重点就在于next数组的创建
-  
-  
+
+
   ```cpp
   int index(std::string S, std::string T, int pos)
   {
@@ -516,7 +533,7 @@ struct List{
   ```
 
   
-  
+
   - 注意next数组的意义以及和失败函数fail的区别:
     - `next[j] = fail[j-1]+1`
     - next[j]为在string[0,j-1]子字串的最大相等前后缀的长度加一，即**跳转的位置**
@@ -534,10 +551,12 @@ struct List{
 - 若T空，则称为空树。 
 
 - 若T非空，则：
+
   - 有一个被称为根的结点，记 为`root(T) `； 
   - 其余结点被分成m(m >=0) 个 不相交的非空集合T1,T,…,Tm， 且T1, T2, …, Tm也都是树，其 称为`root(T)`的**子树**。(递归结构)
-  
+
 - 相关术语
+
   > - 度 ：一个结点的度指该结点的子结点的数目。其中一棵树的度为各结点的度的最大值。
   > - 叶结点：度为0的结点，即没有孩子节点的结点。
   > - 分支结点 ：度大于0的结点，即非叶结点
@@ -545,7 +564,7 @@ struct List{
   > - 层数/深度：根结点层数为0，其余结点的层数为其父结点的层数加1。
   > - 树的高度/深度：树中结点的最大层数
   > - 结点的高度：以该结点为根的子树的高度
-  
+
 - 对于二叉树
 
   > - 二叉树中第i层至多有2^i个结点，i>=0
@@ -857,11 +876,11 @@ public:
     }
     
     ```
+
     
-    
-    
+
     - 层次遍历（类似图的广度优先搜索BFS）
-    
+
       ```cpp
       void LevelOrderTraverseTree(BiTree<T>* tree,/*处理函数*/std::function<void(T&)> address = [](T& e)->void {std::cout << e; })
       	{
@@ -898,7 +917,6 @@ public:
       
       	}
       ```
-    
 
 - 树和二叉树的转换（**树使用兄弟儿子表示法**）
 
@@ -909,20 +927,20 @@ public:
 - 线索二叉树：利用**节点的空指针**指向结点的某个序列的前驱和后继
 
 - 哈夫曼树
-  
+
   - 构造
-  
+
     > - 一类带权路径长度最短的树。（用于不等长最优编码等）
     > - 在哈夫曼树中，权值越大的结点离根结点越近。
     > - 依次找到最小的两个节点组成一棵树直到所有节点都有根节点
-  
+
   - 编码：
-  
+
     > - 在构造哈夫曼树之后，求哈夫曼编码的主要思想是：依次以叶子为出发点，向上回溯至根结点为止。 
     > - 回溯时走左分支则生成代码 0, 走右分支则生成代码 l
-  
+
   - 译码：
-  
+
     > - **初始化**：从根节点开始，遍历二进制编码字符串。
     >
     > - **遍历路径**：
@@ -932,8 +950,9 @@ public:
     > - **结束判断**：若最终到达叶子节点，返回所有编号；否则该串无法译码为非法序列。
     >
     > 
-  
+
 - 并查集
+
   - 一种用于管理元素所属集合的数据结构，实现为一个森林
 
   - 其中每棵树表示一个集合，树中的节点表示对应集合中的元素。
@@ -1014,7 +1033,7 @@ public:
   };
   
   ```
-  
+
   
 
 - 邻接表（稀疏图）
@@ -1444,7 +1463,9 @@ public:
   > 
 
 - 最短路径
+
   - 无权图的单源最短路径问题：BFS
+
     > - BFS过程中，当访问某个顶点时，就确定了该点与源点的最 短距离
     > - 通过BFS，从源点开始由近及远求各顶点的最短路径v
     >
@@ -1498,8 +1519,9 @@ public:
     > ```
     >
     > 
-    
+
   - 正权图的单源最短路径问题：Dijkstra算法
+
     > - 找到各个局部最优路（任意最短路的前缀，也是一条最短路）
     > - 初始化起点到其他点距离
     > - 找局部最优路
@@ -1555,11 +1577,13 @@ public:
     > ```
     >
     > 
-    
+
   - 正权图的多源最短路径问题
+
     - 多次Dijkstra算法
+
     - Floyd算法（多用于邻接矩阵）
-      
+
       > - 算法通过三重循环来更新最短路径。外层循环通过引入一个中间点 `k`，判断是否可以通过中间点 `k` 来缩短从 `i` 到 `j` 的路径。
       > - 如果通过 `k` 的路径更短，则更新 `dist[i][j]`，并且更新前驱节点 `path[i][j]` 为通过 `k` 到达 `j` 的前驱节点。
       >
@@ -1614,11 +1638,11 @@ public:
       > ```
       >
       > 
-  
+
 - 最小支撑树：边权之和最小的支撑树称为G的最小支撑树
 
-  -  Prim算法（加点法）
-    
+  - Prim算法（加点法）
+
     > - 选择任一点u做为起点，放入集合S，即令S={u}(u属于V)；
     > - 找最小跨集合边(u, v) ，即端点分别属于集合S和V-S且权值 最小的边，将该边加入最小支撑树，并将点v放入S；
     > - 执行②，直至S=V
@@ -1682,7 +1706,9 @@ public:
     > ```
     >
     > 
+
   - Kruskal算法（逐边加入）所以不针对邻接矩阵为例
+
     > - 在G中选择权值最小的边，并将此边从G中删除
     > - 若该边加入T后不产生环（即此边的两个端点在T的不同连 通分量中），则将此边加入T中，从而使T减少一个连通分 量，否则本步骤无操作，对于是否产生环可以利用并查集
     > - 重复①②直至T中仅剩一个连通分量
@@ -1738,7 +1764,7 @@ public:
     > ```
     >
     > 
-  
+
   
 
 # 排序
@@ -1776,7 +1802,7 @@ public:
 >    	{
 >    		//记录要插入的元素
 >    		T key = a[i];
->    		   
+>    
 >    		//从i-1位置往前找位置,同时后移元素
 >    		int j = i - 1;
 >    		while (j >= 0 && key < a[j])
@@ -1785,7 +1811,7 @@ public:
 >    			a[j + 1] = a[j];
 >    			j--;
 >    		}
->       
+>    
 >    		//插入
 >    		a[j + 1] = key;
 >    	}
@@ -1807,7 +1833,7 @@ public:
 >    	{
 >    		//记录要插入的元素
 >    		T key = a[i];
->       
+>    
 >    		//二分查找位置,在[0,i-1]找
 >    		int low = 0;
 >    		int high = i - 1;
@@ -1819,18 +1845,17 @@ public:
 >    			if (key < a[mid])high = mid - 1;
 >    			else low = mid + 1;
 >    		}
->       
+>    
 >    		//找到插入位置，为high+1(/low)
->    		   
+>    
 >    		//后移元素,high+1(/low)
 >    		for (int j = i - 1; j >= high + 1; j--)a[j + 1] = a[j];
->       
+>    
 >    		//插入
 >    		a[high + 1] = key;
 >    	}
 >    }
 >    ```
->
 
 - **希尔排序（缩小增量排序）**
 
@@ -1840,9 +1865,9 @@ public:
 
 具体步骤
 
-> //将待排序序列分为若干子序列（每个子序列的元素在原始数组中间距相同）
-> //对这些子序列进行插入排序
-> //减小每个子序列中元素之间的间距，重复上述过程直至间距减少为1。
+> 1. 将待排序序列分为若干子序列（每个子序列的元素在原始数组中间距相同
+> 2. 对这些子序列进行插入排序
+> 3. 减小每个子序列中元素之间的间距，重复上述过程直至间距减少为1。
 
 ```cpp
 //记录跳跃式地移动导致排序方法是不稳定的，只能用于顺序结构
@@ -1896,7 +1921,7 @@ void ShellSort_C(T a[], int n,int t,int dk[])
 	}
 }
 
-//C语言版
+//进行一趟希尔排序
 template<class T>
 void Shellinsert_C(T a[], int n,int dk)
 {
@@ -1924,17 +1949,1030 @@ void Shellinsert_C(T a[], int n,int dk)
 
 ### 交换排序
 
+两两比较待排序记录的关键字，一旦发现两个记录不满足次序要求 时则进行交换，直到整个序列全部满足要求为止。
+
+- **冒泡排序**
+
+通过两两比较相邻记录的关键字， 如果发生逆序，则进行交换，从而使关键字小的记录如气泡一般逐渐往上 ＂漂浮＂ （左移），或者使关键字大的记录如石块一样逐渐向下 ＂坠落” （右移）。
+
+```cpp
+//冒泡排序，O(n^2),当数组为完全逆序时最坏需要比较n*(n-1)/2次
+//两两比较相邻记录的关键字，如果发生逆序，则进行交换
+//稳定排序,可用于链式存储结构
+//当初始记录无序，n较大时
+template<class T=int>
+void Bubble_Sort(T a[], int n)
+{
+	//设置交换标识,开始时假设有交换
+	bool flag = true;
+
+	//只要一趟起泡排序有交换就继续
+	while (flag)
+	{
+		//假设无交换
+		flag = false;
+
+		//遍历找逆序
+		for (int i = 0; i < n - 1; i++)
+		{
+			//有逆序则交换
+			if (a[i] > a[i + 1])
+			{
+				std::swap(a[i], a[i + 1]);
+				//重置标识
+				flag = true;
+			}
+		}
+	}
+}
+```
+
+- 改进
+
+```cpp
+//一趟比较中，当比较结束，发现从某个位置t开始不再交换，则说明t及以后的记录有序
+//从而下一趟比较进行到t即可
+template<class T = int>
+void Bubble_Sort_modify(T a[], int n)
+{
+	if (n <= 1)return;
+
+	//停止标识
+	int stop = n-1;
+	while (stop!=0)
+	{
+		//一趟冒泡排序记录交换的最后位置，-1表示无记录交换
+		int t = 0;
+		for (int i = 0; i < stop; i++)
+		{
+			if (a[i + 1] < a[i])
+			{
+				//交换并记录交换位置
+				std::swap(a[i], a[i + 1]);
+				t = i;
+			}
+		}
+
+		stop = t;
+	}
+}
+```
+
+- **双向冒泡**
+
+```cpp
+//双向冒泡排序，上浮和下沉交替进行
+template<class T = int>
+void Double_Bubble_Sort(T* a, int n) {
+    // 上浮和下沉的区域
+    int left = 0;
+    int right = n - 1;
+
+    bool swapped = true;
+
+    while (left <= right && swapped) {
+        swapped = false;
+
+        // 上浮，大数往后移
+        for (int i = left; i < right; i++) {
+            if (a[i + 1] < a[i]) {
+                std::swap(a[i], a[i + 1]);
+                swapped = true;
+                right = i;  // 更新右边界
+            }
+        }
+
+        // 下沉，小数往前移
+        for (int i = right; i > left; i--) {
+            if (a[i] < a[i - 1]) {
+                std::swap(a[i], a[i - 1]);
+                swapped = true;
+                left = i;  // 更新左边界
+            }
+        }
+    }
+}
+```
+
+#### 快速排序
+
+由冒泡排序改进而得的，能通过两个（不相邻） 记录的一次交换消除多个逆序，大大加快排序的速度。
+
+平均情况下，快速排序的时间复杂度为O(n*log2n)。
+
+快速排序是递归的，执行时需要有一个栈来存放相应的数据。最大递归调用次数与递归树的 深度一致，所以最好情况下的空间复杂度为O(log2n），最坏情况下为O(n)。
+
+- 具体步骤：
+
+  > 待排序的n个记录中任取一个记录（通常取第一个记录）作为枢轴（或支点），又称为基准，经过一趟排序后，将枢轴放置在排序好的的位置，即左边比基准小，右边比基准大，结果将待排序记录分成两个子表，分别 对左、右子表重复上述过程，直至每一子表只有一个记录时
+
+- 对于快速排序有多个版本，其中取基准的办法也有多种，单趟排序也有不同。
+
+- 严蔚敏《数据结构》标准分割函数，取待排序的表中第一个记录作为基准，但这样的话，如果待排序的表基本有序或者已经有序，会导致快速排序进入”陷阱“，重新使得记录无序化，时间复杂度变为最坏`O(n^2)`
+
+- ```cpp
+  //严蔚敏《数据结构》标准分割函数
+  template<class T=int>
+  void Quick_Sort_C(T a[], int left, int right)
+  {
+  	int low = left;
+  	int high = right;
+  
+  	//退出递归
+  	if (low >= high)return;
+  
+  	//这里选择第一个作为脊椎
+  	T pivot = a[low];
+  
+  	//类似左右指针
+  	while (low < high)
+  	{
+  		//右指针左移直到小于基准
+  		while (low < high && a[high] >= pivot)
+  			--high;
+  
+  		//交换
+  		a[low] = a[high];
+  
+  		//左指针右移直到大于基准
+  		while (low < high && a[low] <= pivot)
+  			++low;
+  
+  		//交换
+  		a[high] = a[low];
+  	}
+  
+  	//放回基准值，此时low和high重合，左边的元素小于基准，右边的元素大于基准
+  	a[low] = pivot;
+  
+  	//排序左区间
+  	Quick_Sort_C(a, left, low - 1);
+  
+  	//排序右区间
+  	Quick_Sort_C(a, low + 1, right);
+  }
+  ```
+
+- 为了避免快排进入"陷阱"，对取基准进行改进
+
+> - 选择基准，一般选第一个或者最后一个，但是如果数组本来有序会导致效率低
+>
+> - 可以三数取中（即选取第一个、最后一个以及中间的元素中的中位数）或者随机取数，以及中位数中的中位数
+>
+> - 下面为取基准的方法，可以优化快速排序
+>
+> - 三数取中
+>
+>   ```cpp
+>   int getmid(T array[], int left, int right)
+>   	{
+>   		//获取中间值下标
+>   		int mid = left + (right - left) / 2;
+>   
+>   		//当left<mid
+>   		if (array[left] < array[mid])
+>   		{
+>   			//如果mid<right
+>   			if (array[mid] < array[right])
+>   			{
+>   				return mid;
+>   			}
+>   			else
+>   			{
+>   				//left>right
+>   				if (array[left] > array[right])
+>   				{
+>   					return left;
+>   				}
+>   				else
+>   				{
+>   					return right;
+>   				}
+>   			}
+>   		}
+>   		else
+>   		{
+>   			//如果mid>right
+>   			if (array[mid] > array[right])
+>   			{
+>   				return mid;
+>   			}
+>   			else
+>   			{
+>   				//left>right
+>   				if (array[left] > array[right])
+>   				{
+>   					return left;
+>   				}
+>   				else
+>   				{
+>   					return right;
+>   				}
+>   			}
+>   		}
+>   	}
+>   ```
+>
+>   - 中位数中的中位数
+>
+>     > - 算法的流程如下：
+>     > - 将整个序列划分为n/5组，每组元素数不超过 5 个；
+>     > - 寻找每组元素的中位数（因为元素个数较少，可以直接使用 插入排序 等算法）。
+>     > - 找出这n/5组元素中位数中的中位数。将该元素作为前述算法中每次划分时的分界值即可。
+>     > - 不考虑实现
+>
+>   - 随机取数法
+>
+>     > ```cpp
+>     > //随机法
+>     > 	int getrandom(T array[], int left, int right)
+>     > 	{
+>     > 		std::random_device rd;   // 获取随机设备
+>     > 		std::mt19937 gen(rd());  // 使用 Mersenne Twister 随机数生成器
+>     > 
+>     > 		std::uniform_int_distribution<> size_dis(left, right);
+>     > 
+>     > 		return size_dis;
+>     > 
+>     > 	}
+>     > ```
+
+- 处理完基准问题，这里给出快排的模板
+
+```cpp
+//进行多趟排序相同一起实现,递归实现
+	void Sort(T array[], int left, int right)
+	{
+		//退出递归条件
+		if (left >= right)return;
 
 
-- 选择排序
-- 堆排序
-- 分布排序
+		int idxkey = Partion(array, left, right);
+
+		//继续排序左区间
+		Sort(array, left, idxkey - 1);
+
+		//排序右区间
+		Sort(array, idxkey + 1, right);
+
+	}
+
+	//进行多趟排序相同一起实现,非递归实现
+	//一个栈来保存需要处理的数组区间,
+	//如果某个子数组的元素数量少于等于1，则不需要入栈处理
+	void SortNoR(T a[], int left, int right)
+	{
+		//工作栈存放左右边界
+		std::vector<std::pair<int, int>> stack;
+
+		//存放开始左右边界
+		stack.push_back({ left,right });
+
+		//当栈不空
+		while (!stack.empty())
+		{
+			//取出左右边界
+			auto p = stack.back();
+			stack.pop_back();
+			
+			////使用一次单趟的快排得到第一次的基准值
+			int key = Partion(a, left, right);
+
+			//将基准值的左右边界入栈
+			if (key + 1 < right)
+			{
+				//右边
+				stack.push_back({ key + 1,right});
+			}
+			if (left < key - 1)
+			{
+				//左边
+				stack.push_back({ left,key - 1 });
+			}
+		}
+	}
+```
+
+- 其中Partion有多个版本，利用多态实现。
+
+> 1. **前后指针法**，现在最常用的方法。
+>
+> ```cpp
+> //可以先三数取中交换后，再选取数组的第一个元素作为基准数key
+> template<class T>
+> class FroandBack :public QuickSort<T>
+> {
+> 	//返回左右区间的分界处，此处区间为左右闭区间即[left,right]
+> 	int Partion(T array[], int left, int right)
+> 	{
+> 		int prev = left;
+> 		int cur = left + 1;
+> 
+>         //三数取中选定基准后与第一个数交换
+> 		int key = QuickSort<T>::getmid(array, left, right);
+> 		std::swap(array[key], array[left]);
+> 
+> 		int idxkey = left;//当前排序基准位置
+> 
+> 		while (cur <= right)
+> 		{
+> 			//当cur找到比基准值小的值，cur与prev++位置的值交换
+> 			if(array[cur] <= array[idxkey] && ++prev != cur)
+> 			{
+> 				swap(cur, prev);
+> 			}
+> 			//当前指针后移
+> 			++cur;
+> 		}
+> 		//最后cur越界（识别完所有的数据），交换prev和基准位置的值
+> 		swap(prev, idxkey);
+> 		//更新新基准位置
+> 		idxkey = prev;
+> 
+> 		return idxkey;
+> 	}
+> };
+> ```
+>
+> 2. **霍尔快排**，最经典的快速排序，多用于教材。
+>
+> ```cpp
+> template<class T>
+> class Hoare :public QuickSort<T>
+> {
+> 	int Partion(T array[], int left, int right)
+> 	{
+> 		//用三数取中法得到key的位置
+> 		int key = QuickSort<T>::getmid(array, left, right);
+> 		std::swap(array[key], array[left]);
+> 
+> 		//当前排序基准位置
+> 		int idxkey = left;
+> 
+> 		while (left < right)
+> 		{
+> 			//右边左移找较小值
+> 			while (left < right && array[right] >= array[idxkey])
+> 				--right;
+> 
+> 			//左边右移找较大值
+> 			while (left < right && array[left] <= array[idxkey])
+> 				++left;
+> 
+> 			//交换
+> 			swap(left, right);
+> 		}
+> 
+> 		//left和right相遇，交换
+> 		swap(left, idxkey);
+> 
+> 		//新基准位置
+> 		idxkey = left;
+> 		return idxkey;//返回基准位置
+> 	}
+> };
+> ```
+>
+> 3. **挖坑法**，最容易理解的办法
+>
+> ```cpp
+> template<class T>
+> class Hole : public QuickSort<T>
+> {
+> 	int Partion(T* array, int left, int right)//类似于Hoare
+> 	{
+> 		//用三数取中法得到key的位置
+> 		int idxkey = QuickSort<T>::getmid(array, left, right);
+> 		std::swap(array[idxkey], array[left]);
+> 
+> 		T key = array[left];//储存基准值
+> 		int hole = left;//第一个坑
+> 
+> 		while (left < right)
+> 		{
+> 			//右边左移找较小值
+> 			while (left < right && array[right] >= key)
+> 			{
+> 				--right;
+> 			}
+> 
+> 			array[hole] = array[right];//填坑
+> 			hole = right;//新坑
+> 
+> 			//左边右移找较大值
+> 			while (left < right && array[left] <= key)
+> 			{
+> 				++left;
+> 			}
+> 
+> 			array[hole] = array[left];
+> 			hole = left;
+> 		}
+> 
+> 		//填最后一个坑马，并且最后一个坑为新基准
+> 		array[hole] = key; 
+> 		return hole;
+> 
+> 	}
+> };
+> ```
+
+- 快速排序的改进
+
+> 1. 三路划分法:
+>    1. 为了解决当数组中存在大量重复元素时，传统的快速排序算法会导致不必要的比较和交换操作数组中存在大量重复元素问题
+>    2. 小的甩到左边，大的甩到右边，与 key 值相等的值则推到中间
+>    3. 最后记录表变为[ begin , left-1 ] [ left , right ] [ right + 1 , end ]
+>
+> ```cpp
+> template<class T=int>
+> void Quick_Sort_Threeroad(T a[], const int n)
+> {
+> 	if (n <= 1)return;
+> 
+> 	//随机法取基准
+> 	const T pivot = a[rand() % n];
+> 
+> 	// i：当前操作的元素下标
+> 	int i = 0;
+> 	// arr[0, left)：存储小于 pivot 的元素
+> 	int left = 0;
+> 	// arr[right, len)：存储大于 pivot 的元素
+> 	int right = n;
+> 
+> 	// 完成一趟三路快排，将序列分为：
+>     // 小于 pivot 的元素 | 等于 pivot 的元素 | 大于 pivot 的元素
+>     //这里类似于前后指针法
+> 	while (i < right )//往前遍历
+> 	{
+> 		// 小于基准的元素交换到左边同时前移i
+> 		if (a[i] < pivot)
+> 		{
+> 			std::swap(a[i++], a[left++]);
+> 		}
+> 		// 大于基准的元素交换到右边同时前移i
+> 		else if (pivot < a[i])
+> 		{
+> 			//新交换过来的元素可能还是大于基准的，因此我们不急于让 i 继续向前遍历。
+> 			std::swap(a[i], a[--right]);
+> 		}
+> 		// 相等的元素直接跳过不操作，只是前移i
+> 		else i++;
+> 	}
+> 
+> 	Quick_Sort_Threeroad(a, left);
+> 
+> 	Quick_Sort_Threeroad(a + right, n - right);
+> 
+> }
+> ```
+>
+> 2. 小区间改造法：
+>    1. 当子区间的大小足够小时，可以考虑使用插入排序来代替递归调用提高效率，并通过设置一个阈值来决定是否使用插入排序
+>
+> ```cpp
+> //Insertion_Sort为插入排序
+> template<class T=int>
+> void Quick_Insert_Sort(T *a, int n)
+> {
+> 	if (n <= 1)return;
+> 
+> 	//类似三路划分
+> 	//随机法取基准
+> 	const T pivot = a[rand() % n];
+> 
+> 	// i：当前操作的元素下标
+> 	int i = 0;
+> 	// arr[0, left)：存储小于 pivot 的元素
+> 	int left = 0;
+> 	// arr[right, len)：存储大于 pivot 的元素
+> 	int right = n;
+> 
+> 	// 完成一趟三路快排，将序列分为：
+> 	// 小于 pivot 的元素 | 等于 pivot 的元素 | 大于 pivot 的元素
+> 	while (i < right)//往前遍历
+> 	{
+> 		// 小于基准的元素交换到左边同时前移i
+> 		if (a[i] < pivot)
+> 		{
+> 			std::swap(a[i++], a[left++]);
+> 		}
+> 		// 大于基准的元素交换到右边同时前移i
+> 		else if (pivot < a[i])
+> 		{
+> 			//新交换过来的元素可能还是大于基准的，因此我们不急于让 i 继续向前遍历。
+> 			std::swap(a[i], a[--right]);
+> 		}
+> 		// 相等的元素直接跳过不操作，只是前移i
+> 		else i++;
+> 	}
+> 
+> 	//设置闸值为10
+> 	//快排::小区间优化，因为插入排序在小数组上的性能往往比快速排序更好。
+> 	if (n - right > 10)
+> 	{
+> 		Quick_Insert_Sort(a + right, n - right);
+> 	}
+> 	else
+> 	{
+> 		Insertion_Sort(a + right, n - right);
+> 	}
+> 
+> 	if (left > 10)
+> 	{
+> 		Quick_Sort_Threeroad(a, left);
+> 	}
+> 	else
+> 	{
+> 		Insertion_Sort(a, left);
+> 	}
+> 	return;
+> }
+> ```
+>
+> 3. 内省排序：
+>    1. 快速排序和 堆排序 的结合
+>    2. 内省排序将快速排序的最大递归深度限制为[log2_n]，超过限制时就转换为堆排序。
+>    3. 这样既保留了快速排序内存访问的局部性，又可以防止快速排序在某些情况下性能退化为 O(n^2)，
+>    4. 快速排序在某些情况下性能退化为 O(n^2)又称为快速排序落入陷阱
+>
+> ```cpp
+> //Heap_Sort为堆排序。
+> template<class T = int>
+> void Introspective_Sort(T* a, int n,int deep)
+> {
+> 	if (n <= 1)return;
+> 
+> 	//判断快速排序是否落入陷阱，并设阈值为2logn
+> 	if (deep >= 2 * log2(n))
+> 	{
+> 		Heap_Sort(a,n);
+> 		return;
+> 	}
+> 
+> 	//类似三路划分
+> 	//随机法取基准
+> 	const T pivot = a[rand() % n];
+> 
+> 	// i：当前操作的元素下标
+> 	int i = 0;
+> 	// arr[0, left)：存储小于 pivot 的元素
+> 	int left = 0;
+> 	// arr[right, len)：存储大于 pivot 的元素
+> 	int right = n;
+> 
+> 	// 完成一趟三路快排，将序列分为：
+> 	// 小于 pivot 的元素 | 等于 pivot 的元素 | 大于 pivot 的元素
+> 	while (i < right)//往前遍历
+> 	{
+> 		// 小于基准的元素交换到左边同时前移i
+> 		if (a[i] < pivot)
+> 		{
+> 			std::swap(a[i++], a[left++]);
+> 		}
+> 		// 大于基准的元素交换到右边同时前移i
+> 		else if (pivot < a[i])
+> 		{
+> 			//新交换过来的元素可能还是大于基准的，因此我们不急于让 i 继续向前遍历。
+> 			std::swap(a[i], a[--right]);
+> 		}
+> 		// 相等的元素直接跳过不操作，只是前移i
+> 		else i++;
+> 	}
+> 
+> 	Introspective_Sort(a, left,deep+1);
+> 
+> 	Introspective_Sort(a + right, n - right,deep+1);
+> 
+> 	return;
+> }
+> ```
+
+### 选择排序
+
+每一趟从待排序的记录中选出关键字最小的记录，按顺序放在已排 序的记录序列的最后，直到全部排完为止
+
+由于 swap（交换两个元素）操作的存在，选择排序是一种不稳定的排序算法。
+
+- **简单选择排序（直接选择排序）**，每趟排序在未排序的记录中找到关键词最小的记录加入有序子表里。
+
+```cpp
+//简单选择排序 (SimpleSelection Sort)也称作直接选择排序。O(n^2)
+//移动记录次数较少，当每一记录占用的空间较多时，此方法比直接插入排序快。
+template<class T=int>
+void Simple_Selection_Sort(T* a, int n)
+{
+	//找到n-1次最小值就已经有序了，
+	for (int i = 0; i < n - 1; i++)
+	{
+		//交换的位置
+		int ith = i;
+		//找到最未排序的最小值,选择排序可以从这里入手提高效率
+		for (int j = i + 1; j < n; j++)
+		{
+			if (a[j] < a[ith])ith = j;
+		}
+		//交换
+		std::swap(a[ith], a[i]);
+	}
+}
+```
+
+- **堆排序**：
+
+  - 利用 二叉堆 这种数据结构所设计的一种排序算法
+  - 堆排序的本质是建立在堆上的选择排序
+  - 或者说是将待排序的记录a[l..n]看成是一棵完全二叉树的顺序存储结构
+
+  具体步骤：
+
+  > 调整数组变为大根堆，自下而上建堆
+  >
+  > 依次取最大值并重新调整数组为大根堆
+
+  ```cpp
+  //首先建立大顶堆,小数往下筛,大数往上浮
+  template<class T=int>
+  void sift_down(T* a, int start, int end)
+  {
+  	//父节点
+  	int parent = start;
+  
+  	//子节点，因为从零开始，所以子节点为parent*2+1，parent*2+2（完全二叉树性质
+  	int child = parent * 2 + 1;
+  
+  	//存在child,即子节点编号在区间[start,end]内（完全二叉树性质）
+  	while (child <= end)
+  	{
+  		//比较两个子节点（如果存在），取大值与父节点交换，使父节点大于两个子节点，形成大根堆
+  		if (child + 1 <= end && a[child] < a[child + 1])child++;
+  
+  		//已经是大根堆
+  		if (a[child] <= a[parent])
+  		{
+  			return;
+  		}
+  		else
+  		{
+  			std::swap(a[parent], a[child]);
+  			//往下调整
+  			parent = child;
+  			child = parent * 2 + 1;
+  		}
+  	}
+  }
+  
+  
+  //这里为堆排序完整实现
+  template<class T=int>
+  void Heap_Sort(T* a, int n)
+  {
+  	if (n <= 1)return;
+  
+  	//从最后一个节点的父节点完成堆化，因为数组从零开始，所以最后一个节点为n-1-1，即自下而上建堆。
+  	for (int i = (n - 1 - 1) / 2; i >= 0; i--)
+  	{
+  		sift_down(a, i, n - 1);
+  	}
+  
+  	//建完堆
+  	//将第一个元素和已排序的前一位交换，接着重新调整，
+  	//将大数往上，小数往下，即重新找到下一个要排序的大数
+  	for (int i = n - 1; i > 0; i--)
+  	{
+  		//i为要交换的位置，即第n-i大的数
+  		std::swap(a[0], a[i]);
+  
+  		//重新调整，但是结束区间不包括已排序值
+  		sift_down(a, 0, i - 1);
+  	}
+  }
+  ```
+
+  ### 归并排序
+
+  两个或两个以上的有序表合并成一个有序表
+
+   归并排序的时间复杂度为O(nlog2n)，稳定排序。
+
+  具体步骤：
+
+  > 假设初始序列含有n个记录，则可看成是 n个有序的子序列
+  >
+  > 每个子序列的长度为1,然后两两归并，得到`[n/2]`个长度为2或1的有序子序列；
+  >
+  > 如此重复，直至得到一个长度为n 的有序序列为止
+
+  ```cpp
+  //归并排序最核心的部分是合并（merge）过程：
+  //将两个有序的数组 a[i] 和 b[j] 合并为一个有序数组 c[k]。
+  template<class T=int>
+  void merge(const T* a, size_t alen, const T* b, size_t blen, T* c)
+  {
+  	//三个数组的工作指针
+  	size_t i = 0, j = 0, k = 0;
+  
+  	//遍历比较
+  	while (i < alen && j < blen)
+  	{
+  		//先判断 b[j] < a[i]，保证稳定性
+  		if (b[j] < a[i])
+  		{
+  			c[k] = b[j];
+  			++j;
+  		}
+  		else
+  		{
+  			c[k] = a[i];
+  			++i;
+  		}
+  		//后移c的工作指针
+  		++k;
+  	}
+  
+  	// 此时一个数组已空，另一个数组非空，将非空的数组并入 c 中
+  	for (; i < alen; ++i, ++k) c[k] = a[i];
+  	for (; j < blen; ++j, ++k) c[k] = b[j];
+  
+  }
+  
+  //pointer-style merge
+  template<class T = int>
+  void merge(const T* a, const T* a_end, const T* b, const T* b_end, T* c)
+  {
+  	//三个数组的工作指针
+  	size_t i = 0, j = 0, k = 0;
+  
+  	int alen = a_end - a;
+  	int blen = b_end - b;
+  
+  	//遍历比较
+  	while (i < alen && j < blen)
+  	{
+  		//先判断 b[j] < a[i]，保证稳定性
+  		if (b[j] < a[i])
+  		{
+  			c[k] = b[j];
+  			++j;
+  		}
+  		else
+  		{
+  			c[k] = a[i];
+  			++i;
+  		}
+  		//后移c的工作指针
+  		++k;
+  	}
+  
+  	// 此时一个数组已空，另一个数组非空，将非空的数组并入 c 中
+  	for (; i < alen; ++i, ++k) c[k] = a[i];
+  	for (; j < blen; ++j, ++k) c[k] = b[j];
+  }
+  
+  //注意下面的代码所表示的区间分别是 [l, r)，[l, mid)，[mid, r)。
+  //分治法实现归并排序
+  template<class T=int>
+  void Merge_Sort(T* a, int l, int r)
+  {
+  	//当数组长度为 1 时，该数组就已经是有序的，不用再分解
+  	if (r - l <= 1)return;
+  
+  	//当数组长度大于 1 时，该数组很可能不是有序的。此时将该数组分为两段
+  	int mid = l + ((r - l) >> 1);
+  
+  	//分治左右区间
+  	Merge_Sort(a, l, mid);
+  	Merge_Sort(a, mid , r);
+  
+  	//创建临时数组
+  	T* temp = new T[r - l];
+  
+  	//合并
+  	merge(a + l, a + mid, a + mid, a + r, temp);
+  
+  	//返回
+  	for (int i = 0; i < r - l; i++)
+  	{
+  		a[i + l] = temp[i];
+  	}
+  
+  	//释放空间
+  	delete[] temp;
+  }
+  
+  ```
+
+  - 非递归
+
+  ```cpp
+  //倍增法实现非递归的归并排序
+  template<class T=int>
+  void Merge_sort(T* a, size_t n)
+  {
+  	//临时数组
+  	T* temp = new T[n];
+  
+  	//seg表示要合并的段的大小，每次翻倍
+  	for (size_t seg = 1; seg < n; seg <<= 1)
+  	{
+  		//从 left1 开始，将数组分为两段 [left1, right1) 和 [left2, right2)。
+  		//每次步长为 seg + seg，即跳过两个段的长度。
+  		for (size_t left1 = 0; left1 < n - seg; left1 += seg + seg)
+  		{
+  			size_t right1 = left1 + seg;
+  			size_t left2 = right1;
+  
+  			//使用 std::min 确保第二段的右边界不会超过数组长度 n（处理最后一段）。
+  			size_t right2 = std::min(left2 + seg, n);
+  
+  			//合并
+  			merge(a + left1, a + right1, a + left2, a + right2, temp + left1);
+  
+  			//返回
+  			for (size_t i = left1; i < right2; ++i) a[i] = temp[i];
+  		}
+  
+  	}
+  
+  	//释放空间
+  	delete[] temp;
+  }
+  ```
+
+  ### 基于关键词比较的排序算法分析
+
+  以上的排序算法是建立在记录关键词比较的基础上，即根据关键词比较结果，变换记录位置实现排序。
+
+  #### 平方阶排序算法及改进算法
+
+  最坏情况下时间复杂度为平方阶的排序算法称为简单排序算法，包括直接插入、冒泡、交替冒泡、直接选择、对半插入 希尔(Shell)等排序算法
+
+  简单排序算法都是通过**两层循环**实现的。
+
+  ![image-20250117225538474](D:\Internt_of_Thing\e_book\数据结构和算法\note\assets\image-20250117225538474-1737125743810-1.png)
+
+  
+
+  #### 线性对数阶排序算法
+
+  合并排序、快速排序和堆排序算法
+
+  ![image-20250117225708365](D:\Internt_of_Thing\e_book\数据结构和算法\note\assets\image-20250117225708365-1737125829809-3.png)
+
+  
+
+  - 结论：基于关键词比较的排序算法下界：O(nlog2n)。即任何基于关键词比较的排序算法在最坏情况下的比较次数都大于等于`nlog2n`.
+
+  
+
+  
+
+  
+
+  ### 分布排序
+
+  非基于关键词比较的排序算法，而是基于分配、收集的排序算法，其中分配排序的基本思想为：排序过程无须比较关键字，而是通过"分配"和"收集"过程来实现排序
+
+  时间复杂度可达到线性阶：O(n)
+
   - 基数排序
+
+  - 元素的关键词由多个域构成，即K=Kd,Kd-1,…,K2,K1 
+    - 若每个域为英文字母，则关键词即英文单词 
+    - 若每个域为1位十进制数字(0~9),则关键词即d位十进制数 
+  - 自K1至Kd（自低位向高位），依次以各域为序进行稳定排序
+
+  ![image-20250117230403104](D:\Internt_of_Thing\e_book\数据结构和算法\note\assets\image-20250117230403104-1737126244232-5.png)
+
   - 计数排序
+
+  ```cpp
+  //计数排序,只适用于元素集中于一个范围的排序
+  template<class T=int>
+  void Counting_Sort(T* elem,int n)
+  {
+  	//求最大值和最小值
+  	T max = elem[0];
+  	T min = elem[0];
+  
+  	for (int i = 0; i < n; i++)
+  	{
+  		if (elem[i] > max)max = elem[i];
+  		if (elem[i] < min)min = elem[i];
+  	}
+  
+  	
+  	//元素范围
+  	int gap = max - min;
+  
+  	//统计数组个数
+  	int* count_a = new int[gap + 1];
+  
+  
+  	//初始化count_a
+  	for (int i = 0; i < gap + 1; i++)
+  		count_a[i] = 0;
+  
+  	//特殊类型需要重载运算符"-"
+  	for (int i = 0; i < n; i++)
+  		//根据关键词计数
+  		count_a[elem[i] - min]++;
+  
+  	for (int i = 1; i < gap + 1; i++)
+  		//计算元素所在位置
+  		count_a[i] += count_a[i - 1];
+  
+  
+  	//临时数组
+  	T* sorted_a = new T[n];
+  	for (int i = n - 1; i >= 0; i--)
+  	{
+  		//如果有重复元素则位置减一
+  		int idx = --count_a[elem[i] - min];
+  
+  		sorted_a[idx] = elem[i];
+  	}
+  
+  	//返回
+  	for (int i = 0; i < n; i++)
+  	{
+  		elem[i] = sorted_a[i];
+  	}
+  
+  	//释放空间
+  	delete[] sorted_a;
+  }
+  ```
+
   - 桶排序
-- 堆排序
 
+  ```cpp
+  template<class T = int>
+  void Bucket_Sort(T* elem, int n)
+  {
+  	if (n <= 0)return;
+  
+  	//求最大值和最小值
+  	T max = elem[0];
+  	T min = elem[0];
+  
+  	for (int i = 0; i < n; i++)
+  	{
+  		if (elem[i] > max)max = elem[i];
+  		if (elem[i] < min)min = elem[i];
+  	}
+  
+  
+  	int size = 1, cnt = 1;
+  
+  	if (n != 0)
+  	{
+  		//桶中数组范围
+  		size = (max - min) / n + 1;
+  	}
+  
+  	if (n != 0)
+  	{
+  		//桶数(至少为一
+  		cnt = (max - min) / size + 1;
+  	}
+  
+  	//创建桶
+  	std::vector<std::vector<T>> buckets(cnt);
+  
+  	//放入桶中
+  	for (int i = 0; i < n; i++) {
+  
+  		//判断元素在哪个范围，即在哪个桶
+  		int idx = (elem[i] - min) / size;
+  		//入桶
+  		buckets[idx].push_back(elem[i]);
+  	}
+  
+  	//分别利用关键词比较排序每个桶
+  	for (int i = 0; i < cnt; i++)
+  	{
+  		sort(buckets[i].begin(), buckets[i].end());
+  	}
+  
+  
+  	int index = 0;
+  	//重新放入原数组
+  	for (int i = 0; i < cnt; i++)
+  	{
+  		for (int j = 0; j < buckets[i].size(); j++)
+  		{
+  			elem[index++] = buckets[i][j];
+  		}
+  	}
+  }
+  ```
 
+  ## 外排序
+
+  排序过程既需要内存储器又需要外存储器
+
+  
 
 # 查找
 
