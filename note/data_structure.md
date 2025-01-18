@@ -1802,7 +1802,7 @@ public:
 >    	{
 >    		//记录要插入的元素
 >    		T key = a[i];
->    
+>          
 >    		//从i-1位置往前找位置,同时后移元素
 >    		int j = i - 1;
 >    		while (j >= 0 && key < a[j])
@@ -1811,7 +1811,7 @@ public:
 >    			a[j + 1] = a[j];
 >    			j--;
 >    		}
->    
+>          
 >    		//插入
 >    		a[j + 1] = key;
 >    	}
@@ -1833,7 +1833,7 @@ public:
 >    	{
 >    		//记录要插入的元素
 >    		T key = a[i];
->    
+>          
 >    		//二分查找位置,在[0,i-1]找
 >    		int low = 0;
 >    		int high = i - 1;
@@ -1845,12 +1845,12 @@ public:
 >    			if (key < a[mid])high = mid - 1;
 >    			else low = mid + 1;
 >    		}
->    
+>          
 >    		//找到插入位置，为high+1(/low)
->    
+>          
 >    		//后移元素,high+1(/low)
 >    		for (int j = i - 1; j >= high + 1; j--)a[j + 1] = a[j];
->    
+>          
 >    		//插入
 >    		a[high + 1] = key;
 >    	}
@@ -2128,7 +2128,7 @@ void Double_Bubble_Sort(T* a, int n) {
 >   	{
 >   		//获取中间值下标
 >   		int mid = left + (right - left) / 2;
->   
+>       
 >   		//当left<mid
 >   		if (array[left] < array[mid])
 >   		{
@@ -2649,336 +2649,1023 @@ void Simple_Selection_Sort(T* a, int n)
   }
   ```
 
-  ### 归并排序
 
-  两个或两个以上的有序表合并成一个有序表
+### 归并排序
 
-   归并排序的时间复杂度为O(nlog2n)，稳定排序。
+两个或两个以上的有序表合并成一个有序表
 
-  具体步骤：
+ 归并排序的时间复杂度为O(nlog2n)，稳定排序。
 
-  > 假设初始序列含有n个记录，则可看成是 n个有序的子序列
-  >
-  > 每个子序列的长度为1,然后两两归并，得到`[n/2]`个长度为2或1的有序子序列；
-  >
-  > 如此重复，直至得到一个长度为n 的有序序列为止
+具体步骤：
 
-  ```cpp
-  //归并排序最核心的部分是合并（merge）过程：
-  //将两个有序的数组 a[i] 和 b[j] 合并为一个有序数组 c[k]。
-  template<class T=int>
-  void merge(const T* a, size_t alen, const T* b, size_t blen, T* c)
-  {
-  	//三个数组的工作指针
-  	size_t i = 0, j = 0, k = 0;
-  
-  	//遍历比较
-  	while (i < alen && j < blen)
-  	{
-  		//先判断 b[j] < a[i]，保证稳定性
-  		if (b[j] < a[i])
-  		{
-  			c[k] = b[j];
-  			++j;
-  		}
-  		else
-  		{
-  			c[k] = a[i];
-  			++i;
-  		}
-  		//后移c的工作指针
-  		++k;
-  	}
-  
-  	// 此时一个数组已空，另一个数组非空，将非空的数组并入 c 中
-  	for (; i < alen; ++i, ++k) c[k] = a[i];
-  	for (; j < blen; ++j, ++k) c[k] = b[j];
-  
-  }
-  
-  //pointer-style merge
-  template<class T = int>
-  void merge(const T* a, const T* a_end, const T* b, const T* b_end, T* c)
-  {
-  	//三个数组的工作指针
-  	size_t i = 0, j = 0, k = 0;
-  
-  	int alen = a_end - a;
-  	int blen = b_end - b;
-  
-  	//遍历比较
-  	while (i < alen && j < blen)
-  	{
-  		//先判断 b[j] < a[i]，保证稳定性
-  		if (b[j] < a[i])
-  		{
-  			c[k] = b[j];
-  			++j;
-  		}
-  		else
-  		{
-  			c[k] = a[i];
-  			++i;
-  		}
-  		//后移c的工作指针
-  		++k;
-  	}
-  
-  	// 此时一个数组已空，另一个数组非空，将非空的数组并入 c 中
-  	for (; i < alen; ++i, ++k) c[k] = a[i];
-  	for (; j < blen; ++j, ++k) c[k] = b[j];
-  }
-  
-  //注意下面的代码所表示的区间分别是 [l, r)，[l, mid)，[mid, r)。
-  //分治法实现归并排序
-  template<class T=int>
-  void Merge_Sort(T* a, int l, int r)
-  {
-  	//当数组长度为 1 时，该数组就已经是有序的，不用再分解
-  	if (r - l <= 1)return;
-  
-  	//当数组长度大于 1 时，该数组很可能不是有序的。此时将该数组分为两段
-  	int mid = l + ((r - l) >> 1);
-  
-  	//分治左右区间
-  	Merge_Sort(a, l, mid);
-  	Merge_Sort(a, mid , r);
-  
-  	//创建临时数组
-  	T* temp = new T[r - l];
-  
-  	//合并
-  	merge(a + l, a + mid, a + mid, a + r, temp);
-  
-  	//返回
-  	for (int i = 0; i < r - l; i++)
-  	{
-  		a[i + l] = temp[i];
-  	}
-  
-  	//释放空间
-  	delete[] temp;
-  }
-  
-  ```
+> 假设初始序列含有n个记录，则可看成是 n个有序的子序列
+>
+> 每个子序列的长度为1,然后两两归并，得到`[n/2]`个长度为2或1的有序子序列；
+>
+> 如此重复，直至得到一个长度为n 的有序序列为止
 
-  - 非递归
+```cpp
+//归并排序最核心的部分是合并（merge）过程：
+//将两个有序的数组 a[i] 和 b[j] 合并为一个有序数组 c[k]。
+template<class T=int>
+void merge(const T* a, size_t alen, const T* b, size_t blen, T* c)
+{
+	//三个数组的工作指针
+	size_t i = 0, j = 0, k = 0;
 
-  ```cpp
-  //倍增法实现非递归的归并排序
-  template<class T=int>
-  void Merge_sort(T* a, size_t n)
-  {
-  	//临时数组
-  	T* temp = new T[n];
-  
-  	//seg表示要合并的段的大小，每次翻倍
-  	for (size_t seg = 1; seg < n; seg <<= 1)
-  	{
-  		//从 left1 开始，将数组分为两段 [left1, right1) 和 [left2, right2)。
-  		//每次步长为 seg + seg，即跳过两个段的长度。
-  		for (size_t left1 = 0; left1 < n - seg; left1 += seg + seg)
-  		{
-  			size_t right1 = left1 + seg;
-  			size_t left2 = right1;
-  
-  			//使用 std::min 确保第二段的右边界不会超过数组长度 n（处理最后一段）。
-  			size_t right2 = std::min(left2 + seg, n);
-  
-  			//合并
-  			merge(a + left1, a + right1, a + left2, a + right2, temp + left1);
-  
-  			//返回
-  			for (size_t i = left1; i < right2; ++i) a[i] = temp[i];
-  		}
-  
-  	}
-  
-  	//释放空间
-  	delete[] temp;
-  }
-  ```
+	//遍历比较
+	while (i < alen && j < blen)
+	{
+		//先判断 b[j] < a[i]，保证稳定性
+		if (b[j] < a[i])
+		{
+			c[k] = b[j];
+			++j;
+		}
+		else
+		{
+			c[k] = a[i];
+			++i;
+		}
+		//后移c的工作指针
+		++k;
+	}
 
-  ### 基于关键词比较的排序算法分析
+	// 此时一个数组已空，另一个数组非空，将非空的数组并入 c 中
+	for (; i < alen; ++i, ++k) c[k] = a[i];
+	for (; j < blen; ++j, ++k) c[k] = b[j];
 
-  以上的排序算法是建立在记录关键词比较的基础上，即根据关键词比较结果，变换记录位置实现排序。
+}
 
-  #### 平方阶排序算法及改进算法
+//pointer-style merge
+template<class T = int>
+void merge(const T* a, const T* a_end, const T* b, const T* b_end, T* c)
+{
+	//三个数组的工作指针
+	size_t i = 0, j = 0, k = 0;
 
-  最坏情况下时间复杂度为平方阶的排序算法称为简单排序算法，包括直接插入、冒泡、交替冒泡、直接选择、对半插入 希尔(Shell)等排序算法
+	int alen = a_end - a;
+	int blen = b_end - b;
 
-  简单排序算法都是通过**两层循环**实现的。
+	//遍历比较
+	while (i < alen && j < blen)
+	{
+		//先判断 b[j] < a[i]，保证稳定性
+		if (b[j] < a[i])
+		{
+			c[k] = b[j];
+			++j;
+		}
+		else
+		{
+			c[k] = a[i];
+			++i;
+		}
+		//后移c的工作指针
+		++k;
+	}
 
-  ![image-20250117225538474](D:\Internt_of_Thing\e_book\数据结构和算法\note\assets\image-20250117225538474-1737125743810-1.png)
+	// 此时一个数组已空，另一个数组非空，将非空的数组并入 c 中
+	for (; i < alen; ++i, ++k) c[k] = a[i];
+	for (; j < blen; ++j, ++k) c[k] = b[j];
+}
 
-  
+//注意下面的代码所表示的区间分别是 [l, r)，[l, mid)，[mid, r)。
+//分治法实现归并排序
+template<class T=int>
+void Merge_Sort(T* a, int l, int r)
+{
+	//当数组长度为 1 时，该数组就已经是有序的，不用再分解
+	if (r - l <= 1)return;
 
-  #### 线性对数阶排序算法
+	//当数组长度大于 1 时，该数组很可能不是有序的。此时将该数组分为两段
+	int mid = l + ((r - l) >> 1);
 
-  合并排序、快速排序和堆排序算法
+	//分治左右区间
+	Merge_Sort(a, l, mid);
+	Merge_Sort(a, mid , r);
 
-  ![image-20250117225708365](D:\Internt_of_Thing\e_book\数据结构和算法\note\assets\image-20250117225708365-1737125829809-3.png)
+	//创建临时数组
+	T* temp = new T[r - l];
 
-  
+	//合并
+	merge(a + l, a + mid, a + mid, a + r, temp);
 
-  - 结论：基于关键词比较的排序算法下界：O(nlog2n)。即任何基于关键词比较的排序算法在最坏情况下的比较次数都大于等于`nlog2n`.
+	//返回
+	for (int i = 0; i < r - l; i++)
+	{
+		a[i + l] = temp[i];
+	}
 
-  
+	//释放空间
+	delete[] temp;
+}
 
-  
+```
 
-  
+- 非递归
 
-  ### 分布排序
+```cpp
+//倍增法实现非递归的归并排序
+template<class T=int>
+void Merge_sort(T* a, size_t n)
+{
+	//临时数组
+	T* temp = new T[n];
 
-  非基于关键词比较的排序算法，而是基于分配、收集的排序算法，其中分配排序的基本思想为：排序过程无须比较关键字，而是通过"分配"和"收集"过程来实现排序
+	//seg表示要合并的段的大小，每次翻倍
+	for (size_t seg = 1; seg < n; seg <<= 1)
+	{
+		//从 left1 开始，将数组分为两段 [left1, right1) 和 [left2, right2)。
+		//每次步长为 seg + seg，即跳过两个段的长度。
+		for (size_t left1 = 0; left1 < n - seg; left1 += seg + seg)
+		{
+			size_t right1 = left1 + seg;
+			size_t left2 = right1;
 
-  时间复杂度可达到线性阶：O(n)
+			//使用 std::min 确保第二段的右边界不会超过数组长度 n（处理最后一段）。
+			size_t right2 = std::min(left2 + seg, n);
 
-  - 基数排序
+			//合并
+			merge(a + left1, a + right1, a + left2, a + right2, temp + left1);
 
-  - 元素的关键词由多个域构成，即K=Kd,Kd-1,…,K2,K1 
-    - 若每个域为英文字母，则关键词即英文单词 
-    - 若每个域为1位十进制数字(0~9),则关键词即d位十进制数 
-  - 自K1至Kd（自低位向高位），依次以各域为序进行稳定排序
+			//返回
+			for (size_t i = left1; i < right2; ++i) a[i] = temp[i];
+		}
 
-  ![image-20250117230403104](D:\Internt_of_Thing\e_book\数据结构和算法\note\assets\image-20250117230403104-1737126244232-5.png)
+	}
 
-  - 计数排序
+	//释放空间
+	delete[] temp;
+}
+```
 
-  ```cpp
-  //计数排序,只适用于元素集中于一个范围的排序
-  template<class T=int>
-  void Counting_Sort(T* elem,int n)
-  {
-  	//求最大值和最小值
-  	T max = elem[0];
-  	T min = elem[0];
-  
-  	for (int i = 0; i < n; i++)
-  	{
-  		if (elem[i] > max)max = elem[i];
-  		if (elem[i] < min)min = elem[i];
-  	}
-  
-  	
-  	//元素范围
-  	int gap = max - min;
-  
-  	//统计数组个数
-  	int* count_a = new int[gap + 1];
-  
-  
-  	//初始化count_a
-  	for (int i = 0; i < gap + 1; i++)
-  		count_a[i] = 0;
-  
-  	//特殊类型需要重载运算符"-"
-  	for (int i = 0; i < n; i++)
-  		//根据关键词计数
-  		count_a[elem[i] - min]++;
-  
-  	for (int i = 1; i < gap + 1; i++)
-  		//计算元素所在位置
-  		count_a[i] += count_a[i - 1];
-  
-  
-  	//临时数组
-  	T* sorted_a = new T[n];
-  	for (int i = n - 1; i >= 0; i--)
-  	{
-  		//如果有重复元素则位置减一
-  		int idx = --count_a[elem[i] - min];
-  
-  		sorted_a[idx] = elem[i];
-  	}
-  
-  	//返回
-  	for (int i = 0; i < n; i++)
-  	{
-  		elem[i] = sorted_a[i];
-  	}
-  
-  	//释放空间
-  	delete[] sorted_a;
-  }
-  ```
+### 基于关键词比较的排序算法分析
 
-  - 桶排序
+以上的排序算法是建立在记录关键词比较的基础上，即根据关键词比较结果，变换记录位置实现排序。
 
-  ```cpp
-  template<class T = int>
-  void Bucket_Sort(T* elem, int n)
-  {
-  	if (n <= 0)return;
-  
-  	//求最大值和最小值
-  	T max = elem[0];
-  	T min = elem[0];
-  
-  	for (int i = 0; i < n; i++)
-  	{
-  		if (elem[i] > max)max = elem[i];
-  		if (elem[i] < min)min = elem[i];
-  	}
-  
-  
-  	int size = 1, cnt = 1;
-  
-  	if (n != 0)
-  	{
-  		//桶中数组范围
-  		size = (max - min) / n + 1;
-  	}
-  
-  	if (n != 0)
-  	{
-  		//桶数(至少为一
-  		cnt = (max - min) / size + 1;
-  	}
-  
-  	//创建桶
-  	std::vector<std::vector<T>> buckets(cnt);
-  
-  	//放入桶中
-  	for (int i = 0; i < n; i++) {
-  
-  		//判断元素在哪个范围，即在哪个桶
-  		int idx = (elem[i] - min) / size;
-  		//入桶
-  		buckets[idx].push_back(elem[i]);
-  	}
-  
-  	//分别利用关键词比较排序每个桶
-  	for (int i = 0; i < cnt; i++)
-  	{
-  		sort(buckets[i].begin(), buckets[i].end());
-  	}
-  
-  
-  	int index = 0;
-  	//重新放入原数组
-  	for (int i = 0; i < cnt; i++)
-  	{
-  		for (int j = 0; j < buckets[i].size(); j++)
-  		{
-  			elem[index++] = buckets[i][j];
-  		}
-  	}
-  }
-  ```
+#### 平方阶排序算法及改进算法
 
-  ## 外排序
+最坏情况下时间复杂度为平方阶的排序算法称为简单排序算法，包括直接插入、冒泡、交替冒泡、直接选择、对半插入 希尔(Shell)等排序算法
 
-  排序过程既需要内存储器又需要外存储器
+简单排序算法都是通过**两层循环**实现的。
 
-  
+![image-20250117225538474](D:\Internt_of_Thing\e_book\数据结构和算法\note\assets\image-20250117225538474-1737125743810-1.png)
+
+
+
+#### 线性对数阶排序算法
+
+合并排序、快速排序和堆排序算法
+
+![image-20250117225708365](D:\Internt_of_Thing\e_book\数据结构和算法\note\assets\image-20250117225708365-1737125829809-3.png)
+
+
+
+- 结论：基于关键词比较的排序算法下界：O(nlog2n)。即任何基于关键词比较的排序算法在最坏情况下的比较次数都大于等于`nlog2n`.
+
+
+
+
+
+
+
+### 分布排序
+
+非基于关键词比较的排序算法，而是基于分配、收集的排序算法，其中分配排序的基本思想为：排序过程无须比较关键字，而是通过"分配"和"收集"过程来实现排序
+
+时间复杂度可达到线性阶：O(n)
+
+- 基数排序
+
+- 元素的关键词由多个域构成，即K=Kd,Kd-1,…,K2,K1 
+  - 若每个域为英文字母，则关键词即英文单词 
+  - 若每个域为1位十进制数字(0~9),则关键词即d位十进制数 
+- 自K1至Kd（自低位向高位），依次以各域为序进行稳定排序
+
+![image-20250117230403104](D:\Internt_of_Thing\e_book\数据结构和算法\note\assets\image-20250117230403104-1737126244232-5.png)
+
+- 计数排序
+
+```cpp
+//计数排序,只适用于元素集中于一个范围的排序
+template<class T=int>
+void Counting_Sort(T* elem,int n)
+{
+	//求最大值和最小值
+	T max = elem[0];
+	T min = elem[0];
+
+	for (int i = 0; i < n; i++)
+	{
+		if (elem[i] > max)max = elem[i];
+		if (elem[i] < min)min = elem[i];
+	}
+
+	
+	//元素范围
+	int gap = max - min;
+
+	//统计数组个数
+	int* count_a = new int[gap + 1];
+
+
+	//初始化count_a
+	for (int i = 0; i < gap + 1; i++)
+		count_a[i] = 0;
+
+	//特殊类型需要重载运算符"-"
+	for (int i = 0; i < n; i++)
+		//根据关键词计数
+		count_a[elem[i] - min]++;
+
+	for (int i = 1; i < gap + 1; i++)
+		//计算元素所在位置
+		count_a[i] += count_a[i - 1];
+
+
+	//临时数组
+	T* sorted_a = new T[n];
+	for (int i = n - 1; i >= 0; i--)
+	{
+		//如果有重复元素则位置减一
+		int idx = --count_a[elem[i] - min];
+
+		sorted_a[idx] = elem[i];
+	}
+
+	//返回
+	for (int i = 0; i < n; i++)
+	{
+		elem[i] = sorted_a[i];
+	}
+
+	//释放空间
+	delete[] sorted_a;
+}
+```
+
+- 桶排序
+
+```cpp
+template<class T = int>
+void Bucket_Sort(T* elem, int n)
+{
+	if (n <= 0)return;
+
+	//求最大值和最小值
+	T max = elem[0];
+	T min = elem[0];
+
+	for (int i = 0; i < n; i++)
+	{
+		if (elem[i] > max)max = elem[i];
+		if (elem[i] < min)min = elem[i];
+	}
+
+
+	int size = 1, cnt = 1;
+
+	if (n != 0)
+	{
+		//桶中数组范围
+		size = (max - min) / n + 1;
+	}
+
+	if (n != 0)
+	{
+		//桶数(至少为一
+		cnt = (max - min) / size + 1;
+	}
+
+	//创建桶
+	std::vector<std::vector<T>> buckets(cnt);
+
+	//放入桶中
+	for (int i = 0; i < n; i++) {
+
+		//判断元素在哪个范围，即在哪个桶
+		int idx = (elem[i] - min) / size;
+		//入桶
+		buckets[idx].push_back(elem[i]);
+	}
+
+	//分别利用关键词比较排序每个桶
+	for (int i = 0; i < cnt; i++)
+	{
+		sort(buckets[i].begin(), buckets[i].end());
+	}
+
+
+	int index = 0;
+	//重新放入原数组
+	for (int i = 0; i < cnt; i++)
+	{
+		for (int j = 0; j < buckets[i].size(); j++)
+		{
+			elem[index++] = buckets[i][j];
+		}
+	}
+}
+```
+
+## 外排序
+
+排序过程既需要内存储器又需要外存储器
+
+
 
 # 查找
 
-- 顺序查找
-- 对半查找
-- 斐波那契查找
-- 插值查找
-- 分块查找
+## 定义
+
+- **查找亦称检索**。给定一个文件包含n个记录（或称元 素、结点），每个记录都有一个关键词域。一个查找算法， 就是对给定的值K，在文件中找关键词等于K的那个记录。
+- 查找结果：成功或者失败
+- 平均查找长度：查找一个元素所作的关键词平均比较次数
+
+## 线性结构查找
+
+### 顺序查找
+
+- 从表的一端开始，依次将记录的关键字和给定值进行比较，寻找关键字
+- 既适用于线性表的顺序存储结构，又适用于线性表的链式存储结构
+- 实现简单，仅实现其中数组查找
+
+```cpp
+template<class T = int>
+int Search_Seq(T* ST,int n, T key)
+{
+	for (int i = 0; i < n; i++)
+	{
+		//比较
+		if (ST[i] == key)
+		{
+			//直接返回
+			return i;
+		}
+	}
+	//查找失败返回-1
+	return -1;
+}
+```
+
+- 改进
+
+```cpp
+//通过为表引入一个“虚拟＂记录key即设置监视哨，并且每次前进步长为二
+//通过设置监视哨， 免去查找过程中每一步都要检测整个表是否查找完毕从而减少比较次数，能提高算法S的查找效率
+template<class T = int>
+int Search_Seq_modify(std::vector<T>& ST, T key)
+{
+    // 放入虚拟记录
+    ST.push_back(key);
+
+    int i = 0;
+    while (ST[i] != key) 
+    {
+        if (ST[i + 1] != key) 
+        {
+            i += 2;  // 步长为2
+        } 
+        else 
+        {
+            i++;  // 步长为1
+        }
+    }
+
+    // 返回结果
+    if (i == ST.size() - 1) 
+    {
+        // 查找失败
+        return -1;
+    } 
+    else 
+    {
+        // 查找成功，返回索引
+        return i;
+    }
+}
+```
+
+### 二分查找
+
+二分查找要求线性表必须采用顺序存储结构， 而且表中元素按关键字有序排列
+
+> - 有序表Rlow ,Rlow+1 ,…, Rhigh 按照关键词递增有序。
+> -  选取一个 位置 mid (low <= mid <= high)，比较K和Rmid，
+>   - 若: K < Rmid，[K只可能在Rmid左侧] 
+>   - K > Rmid，[K只可能在Rmid右侧] 
+>   - K = Rmid ，[查找成功结束] 
+>   - 使用不同的规则确定mid，可得到不同的二分查找方法：**对半查找、斐波那契查找、插值查找**等
+
+#### 对半查找
+
+K与待查表的中间记录进行比较，即`mid == (low+high)/2`
+
+每次迭代可将查找范围缩小一半。
+
+- 左闭右闭
+
+```cpp
+// target 是在一个在左闭右闭的区间里，也就是[left, right] 
+//闭区间里，while (left <= right) 要使用 <= ，因为left == right是有意义的
+//if (nums[middle] > target) right 要赋值为 middle - 1，因为当前这个nums[middle]一定不是target
+template<class T=int>
+int Binary_Search(T* a, int left,int right, T key)
+{
+	int mid;
+	
+	//循坏搜索
+	while (left <= right)
+	{
+		//防止溢出 等同于(left + right) / 2
+		mid = left + ((right - left) >> 1);
+	
+		if (key < a[mid])//大于转为右区间
+		{
+
+			right = mid - 1;
+		}
+		else if (a[mid] < key)//小于转为左区间
+		{
+			left = mid + 1;
+		}
+		else//找到键值
+		{
+			return mid;
+		}
+	}
+
+	//未找到
+	return -1;
+}
+```
+
+- 左闭右开
+
+```cpp
+//定义 target 是在一个在左闭右开的区间里，也就是[left, right) ，那么二分法的边界处理方式则截然不同。
+//while (left < right)，这里使用 < , 因为left == right在区间[left, right)是没有意义的
+//if (nums[middle] > target) right 更新为 middle，因为当前nums[middle]不等于target
+template<class T=int>
+int Binary_Search(T* a, int n, T key)
+{
+	int left = 0;
+	int right = n;
+
+	//循坏搜索
+	while (left < right)
+	{
+		int mid = left + ((right - left) >> 1);
+		
+		if (key < a[mid])//大于转为右区间
+		{
+
+			right = mid;
+		}
+		else if (a[mid] < key)//小于转为左区间
+		{
+			left = mid + 1;
+		}
+		else//找到键值
+		{
+			return mid;
+		}
+	}
+
+	// 未找到目标值
+	return -1;
+}
+```
+
+- 递归写法
+
+```cpp
+//闭区间递归实现二分查找
+template<class T = int>
+int Binary_Search_Recursive(T* a, int left, int right, T key)
+{
+	if (left > right) {
+		return -1; // 区间为空，未找到
+	}
+
+	int mid = left + ((right - left) >> 1); // 计算中间索引，防止溢出
+
+	if (key < a[mid]) {
+		// 在左区间查找
+		return Binary_Search_Recursive(a, left, mid - 1, key);
+	}
+	else if (a[mid] < key) {
+		// 在右区间查找
+		return Binary_Search_Recursive(a, mid + 1, right, key);
+	}
+	else {
+		// 找到目标值
+		return mid;
+	}
+}
+
+// 左闭右开递归实现 [left, right)
+template<class T = int>
+int Binary_Search_Recursive_Open(T* a, int left, int right, T key)
+{
+	if (left >= right) {
+		return -1; // 区间为空，未找到
+	}
+
+	int mid = left + ((right - left) >> 1); // 防止溢出
+
+	if (key < a[mid]) {
+		return Binary_Search_Recursive_Open(a, left, mid, key); // 在左区间查找
+	}
+	else if (a[mid] < key) {
+		return Binary_Search_Recursive_Open(a, mid + 1, right, key); // 在右区间查找
+	}
+	else {
+		return mid; // 找到目标值
+	}
+}
+```
+
+- 扩展：二叉判定树
+
+> - 便于分析算法的时间效率，采用二叉树表示查找过程
+> - 对于 有序表Rlow , Rlow+1 ,…, Rhigh ，对半查找的二叉判定树T(low,high) 的是按如下递归定义的扩充二叉树： 
+>   - 当high-low+1 <= 0时：T(low, high)为空； 
+>   - 当high-low+1 > 0时，令mid=(low+high)/2 
+>     - T(low, high)的根结点是mid ； 
+>     - 根结点的左子树是Rlow ,…,Rmid-1 对应的二叉判定树； 
+>     - 根结点的右子树是Rmid+1 ,…,Rhigh 对应的二叉判定树。
+> - 在二叉树中空指针的位置，都增加特殊的结点（空叶结点）， 由此生成的二叉树称为扩充二叉树。称空叶结点为外结点，其余结点为内结点
+> - 对半查找算法的每次 成功查找对应判定树 的一个内结点，元素 比较次数为该结点的深度加1，用于计算查找成功的平均查找长度。
+> - 每次不成功的查找对应判定树的一个外结 点，关键词的比较次 数为该结点的深度。用于计算查找失败的平均查找长度。
+
+- 对于对半查找的优化或者改进
+
+> - **一致查找**
+>
+> ```cpp
+> //一致对半查找，
+> //譬如仅使用三个指针(s、门和e)中的两个。
+> //其具体思路是，使用当前位置i和它的变化率x,在每次不相等的比较之后，可置i<-i土x和x<-x/2(近似地）。
+> // 算法U之所以被称为是一致的，
+> //其原因是在第K层上的一个结点的编号与在第K - l层上其父结点的编号之差的绝对值，
+> //对于第k层上的所有结点均有一致的常数x。
+> 
+> //构建辅助数组DELTA记录每次区间数量m的值,避免在查找过程中计算。
+> std::vector<int> cal_delta(int n)
+> {
+> 	std::vector<int> delta; // 保存步长
+> 	int k = int(log2(n)) + 1; // 计算层数
+> 	int temp = 1;
+> 
+> 	for (int i = 0; i < k; i++)
+> 	{
+> 		delta.push_back((n + temp) / (temp * 2)); // 计算步长
+> 		temp *= 2; // 更新 temp
+> 	}
+> 
+> 	/*for (const auto i : delta)
+> 	{
+> 		std::cout << i << " ";
+> 	}
+> 	std::cout << std::endl;*/
+> 
+> 	return delta; // 返回步长数组
+> }
+> 
+> template<class T = int>
+> int cbiSearch(T* a, int n, int key)
+> {
+> 	if (n < 1)return -1; // 空数组，直接返回
+> 
+> 	if (a[0] == key)return 0; // 特殊情况：第一个元素就是目标
+> 
+> 	std::vector<int> Delta = cal_delta(n); // 生成步长数组
+> 	int i = n / 2;
+> 	int j = 1;        // 当前步长索引
+> 
+> 	while (key != a[i]) // 循环直到找到 key
+> 	{
+> 		if (key < a[i]) // key 在当前元素左侧
+> 		{
+> 			if ( j >= Delta.size()|| Delta[j] == 0 ) return -1; // 步长为 0，无法再分割
+> 			else
+> 			{
+> 				i -= Delta[j]; // 左移
+> 				j++;           // 步长递减
+> 			}
+> 		}
+> 		if (a[i] < key) // key 在当前元素右侧
+> 		{
+> 			if (j >= Delta.size() || Delta[j] == 0)return -1; // 步长为 0，无法再分割
+> 			else
+> 			{
+> 				i += Delta[j]; // 右移
+> 				j++;           // 步长递减
+> 			}
+> 		}
+> 	}
+> 	return i; // 找到目标，返回下标
+> }
+> ```
+
+#### 斐波那契查找
+
+- 在二分搜索的基础上，根据斐波那契数列分割，而不是简单的二分
+- 前提是待查找的查找表必须顺序存储并且有序
+- 平均和最坏情况下的时间复杂性为O(log2n)。
+- 总体运行时间略快于对半查找算法。 因为算法不涉及乘除法，而只涉及加减法。
+
+```cpp
+//数列从坐标1开始计数
+//构造辅助数组，即斐波那契数列，数列生成到大于等于n
+std::vector<int> Fib_arr(int n)
+{
+	std::vector<int> Fib;
+	//初始化
+	Fib.push_back(0);
+	Fib.push_back(1);
+
+	for (int i = 2;; i++)
+	{
+		int next = Fib[i - 1] + Fib[i - 2];
+		Fib.push_back(next);
+		if (next - 1 >= n) break;
+	}
+
+	return Fib;
+}
+
+template<class T=int>
+int Fibonacci_Search(T* a,int n,T key)
+{
+	//空表
+	if (n < 1)return -1;
+
+	//初始化
+	int left = 0;
+	int right = n - 1;
+
+	//得到辅助数列
+	std::vector<int> F = Fib_arr(n);
+	int k = F.size()-1;
+
+	//如果a数组不足F[k]-1，则重复增加a的最后一个数直到长度等于F[k]-1
+	std::vector<T> temp{ a,a+n };
+
+	//一次性调整 temp 的大小来提高效率
+	temp.resize(F[k] - 1, temp[n - 1]);
+
+
+	//查找，注意这里实现查找区间左边比右边大
+	//即如果当前区间为F[k]-1=F[k-1]-1 + F[k-2]-1 + 1;最后一个1的位置给mid
+	//左区间为F[k-1]-1, 右区间为F[k-2]-1
+	while (left <= right)
+	{
+		// mid 由左边界和 F[k-1] 决定，确保不越界,但是正常情况下不会越界 
+		int mid = std::min(left + F[k - 1] - 1, right);
+
+		if (key < temp[mid])  // 如果 key 在左区间
+		{
+			right = mid - 1;  // 更新右边界
+			k -= 1;          // 更新斐波那契索引，左区间长度为 F[k-1]
+		}
+		else if (temp[mid] < key)  // 如果 key 在右区间
+		{
+			left = mid + 1;  // 更新左边界
+			k -= 2;          // 更新斐波那契索引，右区间长度为 F[k-2]
+		}
+		else  // 找到目标值
+		{
+			// 如果是补充值，则返回原数组最后一个元素
+			return mid < n ? mid : n - 1;  
+		}
+	}
+
+	//未找到
+	return -1;
+}
+```
+
+#### 插值查找
+
+- 基本原理是根据要查找的值在有序数组中的大致位置进行估计，以此来缩小搜索范围
+- 通过数据的分布情况来预测目标值的位置，特别适用于有序且均匀分布的数据集
+
+```cpp
+
+template<class T=int>
+int InterPolation_Search(T* a, int n, T key)
+{
+	if (n < 1)return -1;
+
+	//初始化
+	int left = 0;
+	int right = n - 1;
+	//插值
+	int pos = INT_MAX;
+	//迭代
+	while (left <= right&&a[left]!=a[right])//防止除以零
+	{
+		// 使用插值公式计算估计位置,此处和二分查找不同
+		pos = left + (((key - a[left]) * (right - left)) / (a[right] - a[left]));
+
+		// 越界检查
+		if (pos < left || pos > right) return -1;
+		
+		if (key < a[pos])
+		{
+			right = pos - 1;
+		}
+		else if (a[pos] < key)
+		{
+			left = pos + 1;
+		}
+		else
+		{
+			return pos;
+		}
+
+	}
+
+	// 特殊情况：剩余单个元素时检查是否匹配
+	return (a[left] == key) ? left : -1;
+}
+```
+
+### 分块查找
+
+- 分块查找，又称为索引顺序查找
+- 在此查找法中，除表本身以外，尚需建立一个 “索引表”。
+- 对每个子表（或称块）建立一个索引项，其中包括两项内容：
+- 关键字项（其值为该子表内的最大关键字）和指针项（指示该子表的第一个记录在表中位置）。
+- 索引表按关键字有序，则表或者有序或者分块有序，由于块内是无序的，故插入和删除比较容易，无需进行大量移动。
+
+- 过程
+
+  > 1. 将大数组分成若干子数组（块），每个块中的数值都 比后一块中数值小（块内不要求有序），建一个索引表记录每个子表的起始地址和各块中的最大关键字
+  > 2. 先将key依次和索引表中各最大关键字利用对半查找进行比较，确定待查记录所在的块（子表）
+  > 3. 确定了关键字所在的块后，从该块的指针项（指示该子表的第一个记录在表中位置）顺序查找
+
+## 树形结构的查找
+
+- 对有序数组的二分查找，适用于静态查找场景，若元素动态变化（插入、删除元素），为了维持数组有序，需要O(n)时间调整。
+- 所以就有了树形结构的查找结构
+
+### 二叉查找树
+
+- 一棵二叉树，其各结点关键词互异，且中根序列按其关键词递增排列
+- 二叉查找树中任一结点P，其左子树中结点的关键词都小于P的关键词，右子树中结点的关键词都大于P的关键词， 且结点P的左右子树也都是二叉查找树。
+- 查找、插入、删除平均时间复杂度O(logn)，但最坏情况时间复杂度为O(n)（根节点为最大节点或者最小结点
+
+```cpp
+template<class T=int>
+class Tree
+{
+public:
+	//数据项
+	T data;//重载了==运算符和<运算符
+	//左右子树
+	Tree* lchild;
+	Tree* rchild;
+
+	// 维护其他信息，如高度，节点数量等
+
+	int size;   // 当前节点为根的子树大小
+	int count;  // 当前节点的重复数量
+
+	Tree() = default;
+	Tree(T key,Tree* left=nullptr, Tree* right=nullptr):size(1),count(1),data(key),lchild(left),rchild(right){ }
+
+};
+```
+
+- 核心操作
+
+  - **查找**：在二叉查找树中查找关键词为K的结点
+
+  ```cpp
+  //在根指针T所指二叉排序树中递归地查找某关键字等于key的数据元素
+  	Tree<T>* SearchBiSortTree(Tree<T>* root, T key)
+  	{
+  		//二叉排序树为空，则查找失败，返回空指针
+  		if (!root)return nullptr;
+  
+  		//key等千T->data.key, 则查找成功，返回根结点地址
+  		if (root->data == key)
+  		{
+  			return root;
+  		}
+  		else if (key < root->data)//key小千T->data.key, 则递归查找左子树
+  		{
+  			return SearchBiSortTree(root->lchild, key);
+  		}
+  		else//key大千T->data.key, 则递归查找右子树
+  		{
+  			return SearchBiSortTree(root->rchild, key);
+  		}
+  	}
+  ```
+
+  - 插入：将关键词为K的结点插入二叉查找树，插入后仍为二 叉查找树，若K已在树中，则该节点大小加一。
+
+  ```cpp
+  //当二叉排序树T中不存在关键字等千e.key的数据元素时,则插入该元素
+  //注意传入二级指针
+  void InsertBiSortTree(Tree<T>*& root, T key)
+  {
+      //空树直接将其作为根节点
+      if (!root)
+      {
+          Tree<T>* temp = new Tree<T>(key);
+          root = temp;
+      }
+      else if (key < root->data)//将*S插入左子树
+      {
+          InsertBiSortTree(root->lchild, key);
+      }
+      else if (root->data < key)//将*S插入右子树
+      {
+          InsertBiSortTree(root->rchild, key);
+      }
+      else//相等说明root存在相同关键字的结点,个数++
+      {
+          root->count++;
+          return;
+      }
+  
+      //处理size,根的节点数等于左右子树和加上本身个数
+      root->size = root->count + (root->left ? root->left->size : 0) + (root->right ? root->right->size : 0);  // 更新节点的子树大小
+      return;
+  }
+  ```
+
+  - **删除**：删除关键词为K的结点（如果该结点大小大于一则大小减一），删除后仍为二叉查找树，采用代替法删除
+
+```cpp
+//二叉排序树的删除
+//被删除的结点可能是二叉排序树中的任何结点
+//删除结点后，要根据其位置不同修改其双亲结点及相关结点的指针，以保持二叉排序树的特性
+void DeleteBST(Tree<T>*& root, T key)//因为可能删除根节点，所以传入二级指针
+{
+    //空树
+    if (!root)return;
+
+    //初始化,目标结点和目标节点的父节点以便查找
+    Tree<T>* p = root;
+    Tree<T>* pre = nullptr;
+
+    //查找
+    while (p)
+    {
+        //找到关键字等于key的结点* p, 结束循环
+        if (p->data == key)break;
+
+        //前移
+        pre = p;
+        //判断往左移还是右移
+        p = key < p->data ? p->lchild : p->rchild;
+
+    }
+
+    //找不到
+    if (!p)return;
+
+    //count大于1
+    if (p->count > 1)
+    {
+        p->count--;
+    }
+    else
+    {
+        //考虑三种情况
+
+        //q记录s的前驱
+        Tree<T>* q = p;
+        Tree<T>* s = p->rchild;
+
+        //被删结点*p左右子树均不空
+        if (p->lchild && p->rchild)
+        {
+
+            //在*p的左子树中继续查找其前驱结点，即最右下结点也是左子树最大节点用以代替被删除节点
+            //或者找右子树最小节点代替
+            while (s->rchild)
+            {
+                q = s;
+                s = s->rchild;
+            }
+
+            //s指向被删结点的 “前驱",以最大节点替换被删结点
+            p->data = s->data;
+
+            //重接*q的右子树
+            if (q != p)//避免q未移动
+            {
+                //s左子树的值依旧大于其前驱，并且s作为最大节点一定没有右子树了
+                q->rchild = s->lchild;
+            }
+            else//重接*q的左子树,未移动则q即是被s替换的p
+            {
+                q->lchild = s->lchild;
+            }
+
+            delete s;
+            return;
+        }
+        else if (!p->rchild)//被删结点*p无右子树， 只需重接其左子树
+        {
+            q = p;
+            p = p->lchild;
+        }
+        else if (p->lchild)//被删结点*p无左子树， 只需重接其右子树
+        {
+            q = p;
+            p = p->rchild;
+        }
+
+        //将p所指的子树挂接到其双亲结点*f相应的位置
+
+        //被删结点为根节点
+        if (!pre)root = p;
+        else if (q == pre->lchild)//被删结点为前驱的左子树
+        {
+            //挂接到*f的左子树位置
+            pre->lchild = p;
+        }
+        else //被删结点为前驱的左子树
+        {
+            pre->rchild = p;
+        }
+
+        delete q;
+    }
+
+    //维护size
+    root->size = root->count + (root->left ? root->left->size : 0) + (root->right ? root->right->size : 0);  // 更新节点的子树大小
+
+    return;
+}
+
+//递归版本，注意传入二级指针
+void remove(Tree<T>*& root,T key)
+{
+    //空树，或者找不到
+    if (root == nullptr)
+    {
+        return;
+    }
+
+    if (root->data < key)
+    {
+        remove(root->rchild, key);
+    }
+    else if (key < root->data)
+    {
+        remove(root->lchild, key);
+    }
+    else//找到
+    {
+        if (root->count > 1) {
+            root->count--;
+        }
+        else
+        {
+            //左子树为空
+            if (root->lchild == nullptr)
+            {
+                Tree<T>* temp = root;
+                root = root->rchild;
+                delete temp;
+                return;
+            }
+            //右子树为空
+            else if (root->rchild == nullptr) 
+            {
+                Tree<T>* temp = root;
+                root = root->lchild;
+                delete temp;
+                return;
+            }
+            else
+            {
+                //找到继承者，即左子树最大节点或者右子树最小节点
+                Tree<T>* successor = findMax(root->lchild);
+                root->data = successor->data;
+                root->count = successor->count;
+
+                // 当 successor->count > 1时，也应该删除该节点，否则
+                // 后续的删除只会减少重复数量
+                successor->count = 1;
+                remove(root->rchild, successor->data);
+            }
+        }
+    }
+    // 继续维护size，不写成 --root->size;
+    // 是因为value可能不在树中，从而可能未发生删除
+    root->size = root->count + (root->left ? root->left->size : 0) +(root->right ? root->right->size : 0);
+    return;
+}
+```
 
