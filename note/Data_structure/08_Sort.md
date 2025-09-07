@@ -1044,7 +1044,7 @@ void Merge_sort(T* a, size_t n)
 
 简单排序算法都是通过**两层循环**实现的。
 
-![image-20250117225538474](D:\Internt_of_Thing\e_book\数据结构和算法\note\Data_structure\assets\image-20250117225538474-1737125743810-1.png)
+![image-20250117225538474](assets\image-20250117225538474-1737125743810-1.png)
 
 
 
@@ -1052,7 +1052,7 @@ void Merge_sort(T* a, size_t n)
 
 合并排序、快速排序和堆排序算法
 
-![image-20250117225708365](D:\Internt_of_Thing\e_book\数据结构和算法\note\Data_structure\assets\image-20250117225708365-1737125829809-3.png)
+![image-20250117225708365](assets\image-20250117225708365-1737125829809-3.png)
 
 
 
@@ -1077,7 +1077,7 @@ void Merge_sort(T* a, size_t n)
   - 若每个域为1位十进制数字(0~9),则关键词即d位十进制数 
 - 自K1至Kd（自低位向高位），依次以各域为序进行稳定排序
 
-![image-20250117230403104](D:\Internt_of_Thing\e_book\数据结构和算法\note\Data_structure\assets\image-20250117230403104-1737126244232-5.png)
+![image-20250117230403104](assets\image-20250117230403104-1737126244232-5.png)
 
 - 计数排序
 

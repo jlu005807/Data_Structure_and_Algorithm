@@ -113,7 +113,7 @@
 - 存储结构是逻辑结构在计算机中的存储表示
 - 有两类存储结构：顺序存储结构和链式存储结构。
 
-![image-20240716231256748](D:\Internt_of_Thing\e_book\数据结构和算法\note\Data_structure\assets\image-20240716231256748.png)
+![image-20240716231256748](assets\image-20240716231256748.png)
 
 
 
